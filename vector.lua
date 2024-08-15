@@ -62,6 +62,12 @@ function vector.vector2.new(x, y)
     function t:rotate(angle)
         return vector.rotate(self, angle)
     end
+
+    function t:project(Vector)
+        expect(Vector, "vector2")
+        return vector.project(self, Vector)
+    end
+
     return t
 end
 
@@ -153,6 +159,11 @@ function vector.vector3.new(x, y, z)
 
     function t:rotate(angle, axis)
         return vector.rotate(self, angle, axis)
+    end
+
+    function t:project(Vector)
+        expect(Vector, "vector3")
+        return vector.project(self, Vector)
     end
     return t
 end
