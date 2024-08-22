@@ -73,6 +73,11 @@ function vector.vector2.new(x, y)
         return vector.interpolate(self, Vector2, ts)
     end
     
+    function t:distance(Vector)
+        expect(Vector, "vector2")
+        return vector.distance(self, Vector)
+    end
+
     return t
 end
 
@@ -160,7 +165,10 @@ function vector.vector3.new(x, y, z)
     function t:length()
         return math.sqrt(self.x^2 + self.y^2 + self.z^2)
     end
-
+    function t:distance(Vector)
+        expect(Vector, "vector3")
+        return vector.distance(self, Vector)
+    end
     function t:lerp(Vector, ts)
         expect(Vector, "vector3")
         expect(t, "number")
