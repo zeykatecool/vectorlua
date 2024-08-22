@@ -7,16 +7,19 @@ if math.atan then
     math.atan2 = math.atan
 end
 local function expect(t, n, or_n)
-    local t_type = type(t)
-    if t_type == "table" then
-        t_type = t.type or t_type
-    end
-    if t_type ~= n then
-        local errMsg = "expected " .. n .. " but got " .. tostring(t_type)
-        if or_n and t_type ~= or_n then
-            errMsg = "expected " .. or_n .. " but got " .. tostring(t_type)
+    local t_type
+    if type(t) == "table" then
+        if t.type then
+            t_type = t.type
+        else
+            t_type = type(t)
         end
-        error(errMsg .. "\n" .. debug.traceback(), 2)
+    else
+        t_type = type(t)
+    end
+
+    if t_type ~= n and t_type ~= or_n then
+        error("expected '"..n.."' or '"..or_n.."' got '"..t_type.."' at line "..debug.getinfo(2, "l").currentline)
     end
 end
 function vector.vector2.new(x, y)
@@ -399,16 +402,20 @@ function vector.lerp(Vector1, Vector2, t)
     expect(Vector1, "vector2", "vector3")
     expect(Vector2, "vector2", "vector3")
     expect(t, "number")
+    
     if Vector1.type ~= Vector2.type then
         error("trying to lerp '"..Vector1.type.."' and '"..Vector2.type.."'")
     end
 
     local oneMinusT = 1 - t
     local scaledV1 = vector.scale(Vector1, oneMinusT)
-
     local scaledV2 = vector.scale(Vector2, t)
 
-    return vector.add(scaledV1, scaledV2)
+    if Vector1.type == "vector2" then
+        return vector.vector2.new(scaledV1.x + scaledV2.x, scaledV1.y + scaledV2.y)
+    elseif Vector1.type == "vector3" then
+        return vector.vector3.new(scaledV1.x + scaledV2.x, scaledV1.y + scaledV2.y, scaledV1.z + scaledV2.z)
+    end
 end
 function vector.angleBetween(Vector1, Vector2)
     expect(Vector1, "vector2", "vector3")
@@ -457,12 +464,12 @@ function vector.interpolate(Vector1, Vector2, t)
     expect(Vector1, "vector2", "vector3")
     expect(Vector2, "vector2", "vector3")
     expect(t, "number")
+
     if Vector1.type ~= Vector2.type then
         error("trying to interpolate '"..Vector1.type.."' and '"..Vector2.type.."'")
     end
     return vector.lerp(Vector1, Vector2, t)
 end
-
 function vector.reflect(Vector, normal)
     expect(Vector, "vector2", "vector3")
     expect(normal, "vector2", "vector3")
