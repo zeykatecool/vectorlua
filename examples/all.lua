@@ -16,6 +16,8 @@ local newV2 = vector2.new(1,1)
     v:reflect(Vector)
     v:project(Vector)
     v:rotate(angle, axis)
+    v:interpolate(Vector,t)
+    v:distance(Vector)
 
     Vector2:
     v:normalize()
@@ -26,5 +28,6 @@ local newV2 = vector2.new(1,1)
     v:reflect(Vector)
     v:project(Vector)
     v:rotate(angle)
-
+    v:interpolate(Vector,t)
+    v:distance(Vector)
 ]]
