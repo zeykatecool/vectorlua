@@ -6,21 +6,18 @@ vector.__index = vector
 if math.atan then
     math.atan2 = math.atan
 end
-local function expect(t,n,or_n)
-     if type(t) == "table" then
-         t = t.type or type(t)
-     else
-         t = type(t)
-     end
-     if t ~= n then
-        if or_n then
-            if t ~= or_n then
-                error("expected "..or_n.." but got "..tostring(t))
-            end
-        else
-            error("expected "..n.." but got "..tostring(t))
+local function expect(t, n, or_n)
+    local t_type = type(t)
+    if t_type == "table" then
+        t_type = t.type or t_type
+    end
+    if t_type ~= n then
+        local errMsg = "expected " .. n .. " but got " .. tostring(t_type)
+        if or_n and t_type ~= or_n then
+            errMsg = "expected " .. or_n .. " but got " .. tostring(t_type)
         end
-     end
+        error(errMsg .. "\n" .. debug.traceback(), 2)
+    end
 end
 function vector.vector2.new(x, y)
     expect(x, "number")
