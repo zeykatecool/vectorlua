@@ -108,6 +108,10 @@ function vector.vector2:__div(s)
     end
 end
 
+function vector.vector2:__eq(Vector)
+    expect(Vector, "vector2")
+    return self.x == Vector.x and self.y == Vector.y
+end
 function vector.vector2:__tostring()
     return "Vector2(" .. self.x .. "," .. self.y .. ")"
 end
@@ -202,6 +206,10 @@ function vector.vector3:__mul(s)
     end
 end
 
+function vector.vector3:__eq(Vector)
+    expect(Vector, "vector3")
+    return self.x == Vector.x and self.y == Vector.y and self.z == Vector.z
+end
 function vector.vector3:__unm()
     return vector.vector3.new(-self.x, -self.y, -self.z)
 end
