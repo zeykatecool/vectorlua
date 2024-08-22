@@ -36,6 +36,12 @@ print(projection)
 local v1 = vector.vector3.new(1, 2, 3)
 print(v1)
 
+local v1 = vector.vector2.new(1, 2)
+local v2 = vector.vector2.new(4, 5)
+print(
+vector.interpolate(v1, v2, 0.5)
+)
+
 --[[
 Note:
     Vector3 functions are same as vector2.Only some functions LIKE (vector):rotate() and (vector):cross() is different.
