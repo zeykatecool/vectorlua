@@ -436,6 +436,15 @@ function vector.average(vectors)
     return vector.scale(sum, 1 / #vectors)
 end
 
+function vector.distance(Vector1, Vector2)
+    expect(Vector1, "vector2", "vector3")
+    expect(Vector2, "vector2", "vector3")
+    if Vector1.type ~= Vector2.type then
+        error("trying to compare distance between '"..Vector1.type.."' and '"..Vector2.type.."'")
+    end
+    return vector.length(vector.sub(Vector1, Vector2))
+end
+
 function vector.interpolate(Vector1, Vector2, t)
     expect(Vector1, "vector2", "vector3")
     expect(Vector2, "vector2", "vector3")
