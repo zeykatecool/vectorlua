@@ -10,7 +10,7 @@ luarocks install vector
 
 # Features
 - You can draw your `Vector2`'s to png file.So you can compare them easily. (not `Vector3`) (requires `bit` package.It's embedded package in LuaJIT.)
-- Metatable functions for all Vectors : `add`,`sub`,`mul`,`unm`,`div`,`tostring`.
+- Metatable functions for all Vectors : `add`,`sub`,`mul`,`unm`,`div`,`tostring`,`eq`.
 > Example:
 ```lua
 local vector = require("vector")
