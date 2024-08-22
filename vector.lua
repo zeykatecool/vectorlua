@@ -65,6 +65,14 @@ function vector.vector2.new(x, y)
         return vector.project(self, Vector)
     end
 
+    function t:scale(s)
+        return vector.scale(self, s)
+    end
+
+    function t:interpolate(Vector2, ts)
+        return vector.interpolate(self, Vector2, ts)
+    end
+    
     return t
 end
 
@@ -156,6 +164,14 @@ function vector.vector3.new(x, y, z)
 
     function t:rotate(angle, axis)
         return vector.rotate(self, angle, axis)
+    end
+
+    function t:scale(s)
+        return vector.scale(self, s)
+    end
+
+    function t:interpolate(Vector3, ts)
+        return vector.interpolate(self, Vector3, ts)
     end
 
     function t:project(Vector)
@@ -377,6 +393,30 @@ function vector.angleBetween(Vector1, Vector2)
     return math.acos(cosTheta)
 end
 
+function vector.average(vectors)
+    expect(vectors, "table")
+    local sum = vectors[1]
+    local sumtype = vectors[1].type
+    for k,v in pairs(vectors) do
+        if v.type ~= sumtype then
+            error("trying to average vectors of different types")
+        end
+    end
+    for i = 2, #vectors do
+        sum = vector.add(sum, vectors[i])
+    end
+    return vector.scale(sum, 1 / #vectors)
+end
+
+function vector.interpolate(Vector1, Vector2, t)
+    expect(Vector1, "vector2", "vector3")
+    expect(Vector2, "vector2", "vector3")
+    expect(t, "number")
+    if Vector1.type ~= Vector2.type then
+        error("trying to interpolate '"..Vector1.type.."' and '"..Vector2.type.."'")
+    end
+    return vector.lerp(Vector1, Vector2, t)
+end
 
 function vector.reflect(Vector, normal)
     expect(Vector, "vector2", "vector3")
